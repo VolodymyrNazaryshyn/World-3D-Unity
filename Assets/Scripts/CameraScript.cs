@@ -25,6 +25,9 @@ public class CameraScript : MonoBehaviour
 
         _angleX += mx * Time.deltaTime * _sensX;
         _angleY -= my * Time.deltaTime * _sensY; // "-" для инверсии вращения по вертикали
+
+        // ограничиваем угол наклона по вертикали
+        _angleY = Mathf.Clamp(_angleY, 0f, 20f);
     }
 
     void LateUpdate()
