@@ -5,7 +5,7 @@ public class CharacterScript : MonoBehaviour
     private CharacterController _characterController;
     private Animator _animator;
     private Vector3 _moveVector;
-    private float _moveSpeed = 3000f;
+    private float _moveSpeed = 2000f;
 
     void Start()
     {
@@ -31,7 +31,15 @@ public class CharacterScript : MonoBehaviour
         _moveVector *= factor;
         if (_moveVector.magnitude > _characterController.minMoveDistance)
         {
-            _animator.SetInteger("MoveState", 1);
+            if(Input.GetKey(KeyCode.LeftShift))
+            {
+                _animator.SetInteger("MoveState", 2);
+                _moveVector *= factor * 2;
+            }
+            else
+            {
+                _animator.SetInteger("MoveState", 1);
+            }
         }
         else
         {
