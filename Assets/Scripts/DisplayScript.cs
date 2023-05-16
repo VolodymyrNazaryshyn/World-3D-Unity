@@ -2,19 +2,14 @@ using UnityEngine;
 
 public class DisplayScript : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _character;
-    [SerializeField]
-    private GameObject _coin;
-    [SerializeField]
-    private TMPro.TextMeshProUGUI _textDistance;
+    [SerializeField] private GameObject _character;
+    [SerializeField] private GameObject _coin;
+    [SerializeField] private TMPro.TextMeshProUGUI _textDistance;
+    [SerializeField] private TMPro.TextMeshProUGUI _coinCountText;
+
+    public static int coinCount; // static для доступа к переменной из других скриптов
 
     const float neutralDistance = 7f; // переход от синего к красному тексту
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -28,6 +23,8 @@ public class DisplayScript : MonoBehaviour
             1 / (1 + distance), 
             0.2f,
             distance / (1 + distance));
+
+        _coinCountText.text = coinCount.ToString(); // изменяем coinCount
     }
 }
 /* Обеспечить случайное появление монеты: не ближе 10 и не дальше 20 от персонажа

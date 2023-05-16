@@ -48,11 +48,3 @@ public class CharacterScript : MonoBehaviour
         _characterController.SimpleMove(_moveVector);
     }
 }
-/* Бег:
- * удерживая Shift увеличиваем скорость движения (бег)
- * при беге переводим аниматор в состояние "бег"
- * создаем клип "бег" и добавляем его к аниматору, реализуем
- * все переходы:
- *  idle-run, run-idle
- *  walk-run, run-walk
- */
