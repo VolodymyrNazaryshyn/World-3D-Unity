@@ -6,7 +6,7 @@ public class MenuScript : MonoBehaviour
 
     void Start()
     {
-        
+        Time.timeScale = 0.0f;
     }
 
     void Update()
