@@ -17,6 +17,9 @@ public class DayNightScript : MonoBehaviour
     float _dayTime;                                // текущее время
     float _dayPhase;                               // фаза суток приведенная к диапазону [0..1]
 
+    private AudioSource _daySound;
+    private AudioSource _nightSound;
+
     void Start()
     {
         _sunObj = GameObject.Find("SunLight");
@@ -25,6 +28,10 @@ public class DayNightScript : MonoBehaviour
         _sun = GameObject.Find("SunLight").GetComponent<Light>();
         _moon = GameObject.Find("MoonLight").GetComponent<Light>();
         _lightElem = GameObject.Find("LightElem");
+
+        AudioSource[] audioSources = this.GetComponents<AudioSource>();
+        _daySound = audioSources[0];
+        _nightSound = audioSources[1];
     }
 
     void LateUpdate()
@@ -43,6 +50,12 @@ public class DayNightScript : MonoBehaviour
 
         if (_dayPhase > 0.25f && _dayPhase < 0.75f) // ночная фаза
         {
+            if (!_nightSound.isPlaying)
+            {
+                _nightSound.Play();
+                _daySound.Stop();
+            }
+            
             if (RenderSettings.skybox != nightSkybox)
             {
                 RenderSettings.skybox = nightSkybox;
@@ -55,6 +68,12 @@ public class DayNightScript : MonoBehaviour
         }
         else // дневная фаза
         {
+            if(!_daySound.isPlaying)
+            {
+                _daySound.Play();
+                _nightSound.Stop();
+            }
+
             if(RenderSettings.skybox != daySkybox)
             {
                 RenderSettings.skybox = daySkybox;
@@ -67,10 +86,8 @@ public class DayNightScript : MonoBehaviour
         }
 
         RenderSettings.skybox.SetFloat("_Exposure", 0.2f + koef * 0.8f); // яркость (видимость) самой текстуры
+
+        _daySound.mute = _nightSound.mute = GameSettings.IsMuted;
+        _daySound.volume = _nightSound.volume = GameSettings.BackgroundVolume;
     }
 }
-/* Д.З. Сгруппировать источники света в общий элемент и вращать его
- * для изменения фаз дня.
- * Реализовать "выключение" источников света, дающих свет снизу
- * (днем - Луна, ночью - Солнце)
- */

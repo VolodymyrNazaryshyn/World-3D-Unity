@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
@@ -6,7 +8,11 @@ public class MenuScript : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 0.0f;
+        GameSettings.LoadSettings();
+        GameObject.Find("MuteToggle").GetComponent<Toggle>().isOn = GameSettings.IsMuted;
+        GameObject.Find("BgSlider").GetComponent<Slider>().value = GameSettings.BackgroundVolume;
+        
+        Time.timeScale = _menuContent.activeInHierarchy ? 0.0f : 1.0f;
     }
 
     void Update()
@@ -16,6 +22,17 @@ public class MenuScript : MonoBehaviour
             Time.timeScale = _menuContent.activeInHierarchy ? 1.0f : 0.0f;
             _menuContent.SetActive(! _menuContent.activeInHierarchy);
         }
+    }
+
+    /********  UI Event Handlers ********/
+    public void MuteChanged(bool state)
+    {
+        // Debug.Log(state);
+        GameSettings.IsMuted = state;
+    }
+    public void BackgroundVolumeChanged(Single value)
+    {
+        GameSettings.BackgroundVolume = value;
     }
 }
 // Скрипты на неактивном объекте не исполняются
